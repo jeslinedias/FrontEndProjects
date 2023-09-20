@@ -63,11 +63,11 @@ export default function SignUp() {
           >
             <Avatar
               sx={{ m: 1, bgcolor: "secondary.main", width: "50" }}
-              src="src\icons\ctc_vertical.png"
+              src="src\images\ctc_vertical.png"
               sizes="20"
             />
 
-            <Typography variant="h5">Membership Registration</Typography>
+            <Typography variant="h5">Membership SignUp</Typography>
             <Box
               component="form"
               onSubmit={handleSubmit}
@@ -112,9 +112,7 @@ export default function SignUp() {
                   control={<Checkbox value="remember" color="primary" />}
                   label="I Accept the"
                 />
-                {/* <Link href="#" variant="body2">
-                  Terms and Conditions
-                </Link> */}
+                <Link to="#">Terms and Conditions</Link>
               </Typography>
 
               <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
@@ -122,7 +120,7 @@ export default function SignUp() {
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link to={`signin`}>Already have an account? Sign in</Link>
+                  <Link to={`../`}>Already have an account? Sign in</Link>
                 </Grid>
               </Grid>
             </Box>
