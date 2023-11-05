@@ -12,7 +12,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CopyRightCTC from "../components/CopyRightCTC";
-import SignIn from "./SignUp_S1";
+import SignIn from "./SignUp";
 import { Link } from "react-router-dom";
 
 // TODO remove, this demo shouldn't need to reset the theme.
