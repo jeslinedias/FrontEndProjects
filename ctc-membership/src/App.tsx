@@ -1,4 +1,3 @@
-//import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 import SignIn from "./Pages/Login";
 import ResponsiveAppBar from "./components/AppMenuBar";
