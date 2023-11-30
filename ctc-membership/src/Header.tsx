@@ -5,8 +5,6 @@ import EmailIcon from '@mui/icons-material/Email';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import YouTubeIcon from '@mui/icons-material/YouTube';
-import SearchIcon from '@mui/icons-material/Search';
-
 const Header: React.FC = () => {
   return (
     <AppBar position="absolute" sx={{backgroundImage: 'url("https://test.chicagotamilcatholics.org/wp-content/uploads/2021/12/footer-bg-im-21.jpg")'}}>
@@ -28,7 +26,6 @@ const Header: React.FC = () => {
               <Grid item xs={2}><Button variant='text' color='inherit' href='https://www.facebook.com/chicagotamilcatholics'><FacebookIcon sx={{display:'inline-block', my:2}} /></Button></Grid>
               <Grid item xs={2}><Button variant='text' color='inherit' href='https://www.youtube.com/@chicagotamilcatholics'><YouTubeIcon sx={{display:'inline-block', my:2}} /></Button></Grid>
               <Grid item xs={2}><Button variant='text' color='inherit' href='https://chat.whatsapp.com/HLGO12Uhc4CLYO98UQWc7w'><WhatsAppIcon sx={{display:'inline-block', my:2}} /></Button></Grid>
-              <Grid item xs={2}><Button variant='text' color='inherit' href='https://chicagotamilcatholics.org/#'><SearchIcon sx={{display:'inline-block', my:2}} /></Button></Grid>
             </Grid>
           </Grid>
         </Grid>
