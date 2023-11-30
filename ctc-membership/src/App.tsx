@@ -13,6 +13,7 @@ import RegistrationForm from "./Pages/Registration";
 import Header from "./Header";
 import Footer from "./Footer";
 import { Toolbar } from "@mui/material";
+import LandingPage from "./LandingPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,6 +27,7 @@ const router = createBrowserRouter(
         errorElement={<ErrorPage />}
       />
       <Route path="/registrationform" element={<RegistrationForm />} errorElement={<ErrorPage />} />
+      <Route path="/landingpage" element={<LandingPage />} errorElement={<ErrorPage/>} />
     </Route>
   )
 );
@@ -34,12 +36,8 @@ function App() {
   return (
     <div>
       <Header />
-      <Toolbar />
+      <Toolbar /><br></br>
       <RouterProvider router={router} /> 
-      <Toolbar />
-      <Toolbar />
-      <Toolbar />
-      <Toolbar />
       <Toolbar />
       <Footer />
     </div>

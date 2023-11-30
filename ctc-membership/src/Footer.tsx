@@ -17,10 +17,10 @@ const outerTheme = createTheme({
 const Footer: React.FC = () => {
   return (
     <AppBar 
-     position="fixed" 
+     position="absolute" 
      style={{ 
       top: 'auto', 
-      bottom: 0, 
+      bottom: 'auto', 
       backgroundColor:'#ffffff', 
       backgroundImage: 'url("https://test.chicagotamilcatholics.org/wp-content/uploads/2021/12/footer-bg-im-21.jpg")',
       backgroundSize: 'cover',
