@@ -15,7 +15,7 @@ interface Props {
   window?: () => Window;
 }
 
-const drawerWidth = 240;
+const drawerWidth = 260;
 const navItems = ['Home', 'About Us', 'Mass', 'Events', 'Blog', 'Contact Us'];
 
 export default function Header(props: Props) {
@@ -28,9 +28,9 @@ export default function Header(props: Props) {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        MUI
-      </Typography>
+      <Box sx={{m:2, my:3}}>
+        <img src='src/images/ctclong_logo.webp' alt="Your Image Alt Text" style={{height:'50px'}} />
+      </Box>
       <Divider />
       <List>
         {navItems.map((item) => (
@@ -68,23 +68,23 @@ export default function Header(props: Props) {
             </Grid>
           </Grid>
           <Grid container spacing={2} sx={{ display: { xs: 'none', sm: 'flex' } }}>
-            <Grid item sm={1} md={1.2}>
-                <Button disabled variant='contained' sx={{my:2.5 }}><CallIcon sx={{color:'#ffffff'}}/></Button>  
-                <Button variant='text' color='inherit' href='tel:312-970-0053' sx={{ display: { sm: 'none', md: 'inline-block' } }}><Typography>312-970-0053</Typography></Button>
+            <Grid item sm={1} md={1} lg={1.2} xl={1.2}>
+                <Button variant='text' color='inherit' href='tel:312-970-0053' sx={{my:2.5, display:'inline-block' }}><CallIcon /></Button>  
+                <Button variant='text' color='inherit' href='tel:312-970-0053' sx={{ display: { sm: 'none', md:'none', lg: 'none', xl: 'inline-block' } }}><Typography>312-970-0053</Typography></Button>
             </Grid>
-            <Grid item sm={2} md={2.5}>
-                <Button disabled variant='contained' sx={{my:2.5 }}><EmailIcon sx={{color:'#ffffff'}}/></Button>
-                <Button variant='text' color='inherit' href='mailto:hello@chicagotamilcatholics.org' sx={{textTransform: 'none', display: { sm: 'none', md: 'inline-block'}}}><Typography>hello@chicagotamilcatholics.org</Typography></Button>
+            <Grid item sm={2} md={2} lg={2.1} xl={2.1}>
+                <Button variant='text' color='inherit' href='mailto:hello@chicagotamilcatholics.org' sx={{my:2.5, display:'inline-block' }}><EmailIcon /></Button>
+                <Button variant='text' color='inherit' href='mailto:hello@chicagotamilcatholics.org' sx={{textTransform: 'none', display: { sm: 'none', md:'none', lg: 'none', xl:'inline-block'}}}><Typography>hello@chicagotamilcatholics.org</Typography></Button>
             </Grid>
-            <Grid item sm={5.8} md={4.3}>
+            <Grid item sm={5.8} md={5.5} lg={5} xl={5}>
                 <img src='src/images/ctclong_logo.webp' alt="Your Image Alt Text" style={{height:'80px'}} />
             </Grid>
-            <Grid item sm={3.2} md={3}>
+            <Grid item sm={3.2} md={3.2} lg={3} xl={3}>
                 <Grid container spacing={2}>
-                <Grid item sm={1} md={1} xl={1}></Grid>
-                <Grid item sm={3} md={2} xl={2}><Button variant='text' color='inherit' href='https://www.facebook.com/chicagotamilcatholics'><FacebookIcon sx={{display:'inline-block', my:2}} /></Button></Grid>
-                <Grid item sm={3} md={2} xl={2}><Button variant='text' color='inherit' href='https://www.youtube.com/@chicagotamilcatholics'><YouTubeIcon sx={{display:'inline-block', my:2}} /></Button></Grid>
-                <Grid item sm={3} md={2} xl={2}><Button variant='text' color='inherit' href='https://chat.whatsapp.com/HLGO12Uhc4CLYO98UQWc7w'><WhatsAppIcon sx={{display:'inline-block', my:2}} /></Button></Grid>
+                <Grid item sm={1} md={1}></Grid>
+                <Grid item sm={3} md={3}><Button variant='text' color='inherit' href='https://www.facebook.com/chicagotamilcatholics'><FacebookIcon sx={{display:'inline-block', my:2}} /></Button></Grid>
+                <Grid item sm={3} md={3}><Button variant='text' color='inherit' href='https://www.youtube.com/@chicagotamilcatholics'><YouTubeIcon sx={{display:'inline-block', my:2}} /></Button></Grid>
+                <Grid item sm={3} md={3}><Button variant='text' color='inherit' href='https://chat.whatsapp.com/HLGO12Uhc4CLYO98UQWc7w'><WhatsAppIcon sx={{display:'inline-block', my:2}} /></Button></Grid>
             </Grid>
           </Grid>
         </Grid>
