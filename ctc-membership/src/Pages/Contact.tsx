@@ -14,6 +14,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { countries } from 'countries-list';
+import { Link } from 'react-router-dom';
 
 
 export default function Contact(){
@@ -218,15 +219,17 @@ export default function Contact(){
           </Grid>
         </Grid>
         <br></br>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          sx={{my:2}}
-        >
-          Register
-        </Button>
+        <Link to={"/"}>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            sx={{my:2}}
+          >
+            Register
+          </Button>
+        </Link>
     </>
     );
 }
