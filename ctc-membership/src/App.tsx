@@ -10,6 +10,9 @@ import SignInSide from "./Pages/SignIn";
 import ErrorPage from "./Pages/Error-page";
 import Contact from "./Pages/ContactUs";
 import RegistrationForm from "./Pages/Registration";
+import Header from "./Header";
+import Footer from "./Footer";
+import { Toolbar } from "@mui/material";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,9 +32,17 @@ const router = createBrowserRouter(
 
 function App() {
   return (
-    <>
-      <RouterProvider router={router} />
-    </>
+    <div>
+      <Header />
+      <Toolbar />
+      <RouterProvider router={router} /> 
+      <Toolbar />
+      <Toolbar />
+      <Toolbar />
+      <Toolbar />
+      <Toolbar />
+      <Footer />
+    </div>
   );
 }
 
