@@ -1,7 +1,6 @@
-import * as React from "react";
+import React, { useState } from 'react';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link } from "react-router-dom";
-
 import {
   Paper,
   Checkbox,
@@ -19,15 +18,37 @@ import {
 import PasswordField from "../components/PasswordField";
 import CopyRightCTC from "../components/CopyRightCTC";
 import EmailField from "../components/EmailField";
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { initializeApp } from 'firebase/app';
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB4nDQAhRmAbX9qW1-MsaZJtw8JlyTa7Qw",
+  authDomain: "chicagotamilcatholics-6f433.firebaseapp.com",
+  projectId: "chicagotamilcatholics-6f433",
+  storageBucket: "chicagotamilcatholics-6f433.appspot.com",
+  messagingSenderId: "160168855788",
+  appId: "1:160168855788:web:75136e333a89160fd47dc9",
+  measurementId: "G-F0BZLVYY89"
+};
+
+const auth = getAuth(initializeApp(firebaseConfig));
+
+if (!auth) {
+  throw new Error('Firebase authentication not initialized!');
+}
+
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+
+  const [email] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log(data);
 
     //const { password, confirmPassword } = event.currentTarget.elements;
     if (password !== confirmPassword) {
@@ -35,15 +56,17 @@ export default function SignUp() {
       return;
     }
 
-    console.log({
-      email: data.get("email"),
-      Password: password,
-    });
-  };
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      console.log('User signed up:', user);
+    } catch (error: any) {
+      console.error('Error signing up:', error.code, error.message);
+    }
+  }    
+
 
   const paperStyle = { padding: "2vh" };
-  const [password, setPassword] = React.useState("");
-  const [confirmPassword, setConfirmPassword] = React.useState("");
 
   // function emailValidation(
   //   event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -89,6 +112,7 @@ export default function SignUp() {
                   name="firstName"
                   autoComplete="firstName"
                   fullWidth
+                  margin='normal'
                 />
                 <TextField
                   required
@@ -97,11 +121,13 @@ export default function SignUp() {
                   name="lastName"
                   autoComplete="lastName"
                   fullWidth
+                  margin='normal'
                 />
               </Stack>
 
-              <Stack spacing={1} direction={"column"} width={350} margin={1}>
+              <Stack spacing={1} direction={"column"} margin={1} marginTop={3}>
                 <EmailField />
+                <br></br>
                 <PasswordField
                   id="password"
                   label="Password"
@@ -110,8 +136,7 @@ export default function SignUp() {
                 <PasswordField
                   id="confirmpassword"
                   label="Confirm Password"
-                  passwordValue={setConfirmPassword}
-                  
+                  passwordValue={setConfirmPassword}             
                 />
               </Stack>
 
@@ -119,8 +144,9 @@ export default function SignUp() {
                 <FormControlLabel
                   control={<Checkbox value="remember" color="primary" />}
                   label="I Accept the"
+                  sx={{display:'inline-block'}}
                 />
-                <Link to="#">Terms and Conditions</Link>
+                <Link to="#"><Typography sx={{display:'inline-block'}}>Terms and Conditions</Typography></Link>
               </Typography>
 
               <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>

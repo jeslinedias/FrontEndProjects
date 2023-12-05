@@ -47,6 +47,7 @@ export default function EmailField() {
       error={Boolean(error)}
       helperText={error}
       onBlur={handleOnBlur}
+      margin="normal"
     />
   );
 }
