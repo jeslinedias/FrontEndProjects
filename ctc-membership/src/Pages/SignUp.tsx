@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Paper,
   Checkbox,
@@ -44,9 +44,12 @@ const defaultTheme = createTheme();
 
 export default function SignUp() {
 
-  const [email] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [isFormValid, setIsFormValid] = useState(false);
+  const navigate = useNavigate();
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -60,10 +63,17 @@ export default function SignUp() {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       console.log('User signed up:', user);
+      setIsFormValid(true);
+      navigate('/')
     } catch (error: any) {
+      setIsFormValid(false);
       console.error('Error signing up:', error.code, error.message);
     }
   }    
+
+  useEffect(() => {
+    setIsFormValid(email.trim() !== '' && password !== '');
+  }, [email, password]);
 
 
   const paperStyle = { padding: "2vh" };
@@ -126,7 +136,7 @@ export default function SignUp() {
               </Stack>
 
               <Stack spacing={1} direction={"column"} margin={1} marginTop={3}>
-                <EmailField />
+                <EmailField setEmail={setEmail} />
                 <br></br>
                 <PasswordField
                   id="password"
@@ -140,19 +150,19 @@ export default function SignUp() {
                 />
               </Stack>
 
-              <Typography variant="h6">
+              <Typography variant="h6" justifyContent="center">
                 <FormControlLabel
                   control={<Checkbox value="remember" color="primary" />}
                   label="I Accept the"
-                  sx={{display:'inline-block'}}
+                  sx={{display:'inline-block', mr:0.7}}
                 />
-                <Link to="#"><Typography sx={{display:'inline-block'}}>Terms and Conditions</Typography></Link>
+                <Link to="#"><Typography sx={{display:'inline-block', mr:2}} variant='body1'>Terms and Conditions</Typography></Link>
               </Typography>
 
-              <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-                Sign Up
-              </Button>
-              <Grid container justifyContent="flex-end">
+                <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }} disabled={!isFormValid}>
+                  Sign Up
+                </Button>
+              <Grid container justifyContent="center">
                 <Grid item>
                   <Link to={`../`}>Already have an account? Sign in</Link>
                 </Grid>
