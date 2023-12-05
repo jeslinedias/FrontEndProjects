@@ -11,6 +11,7 @@ import {
   TextField,
   Grid,
   FormControlLabel,
+  FormControl,
   Typography,
   Container,
   Stack,
@@ -18,7 +19,7 @@ import {
 import PasswordField from "../components/PasswordField";
 import CopyRightCTC from "../components/CopyRightCTC";
 import EmailField from "../components/EmailField";
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, AuthError } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 
 
@@ -44,6 +45,7 @@ const defaultTheme = createTheme();
 
 export default function SignUp() {
 
+  const [error, setError] = React.useState<string | null>(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -52,6 +54,7 @@ export default function SignUp() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setError(null);
 
     //const { password, confirmPassword } = event.currentTarget.elements;
     if (password !== confirmPassword) {
@@ -68,8 +71,13 @@ export default function SignUp() {
     } catch (error: any) {
       setIsFormValid(false);
       console.error('Error signing up:', error.code, error.message);
+      handleSignInError(error as AuthError);
     }
   }    
+
+  const handleSignInError = (_error: AuthError) => {
+    setError('The Email is already in use');
+  };
 
   useEffect(() => {
     setIsFormValid(email.trim() !== '' && password !== '');
@@ -150,13 +158,20 @@ export default function SignUp() {
                 />
               </Stack>
 
+              {error && (
+                <FormControl margin="normal" fullWidth>
+                  <Typography variant="body2" color="error" align="center">
+                    {error}
+                  </Typography>
+                </FormControl>
+              )}
+
               <Typography variant="h6" justifyContent="center">
                 <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="I Accept the"
-                  sx={{display:'inline-block', mr:0.7}}
+                  control={<Checkbox value="remember" color="primary" required />}
+                  label="I Accept the terms and conditions"
                 />
-                <Link to="#"><Typography sx={{display:'inline-block', mr:2}} variant='body1'>Terms and Conditions</Typography></Link>
+                <Link to="#"><Typography variant='body1'>Terms and Conditions</Typography></Link>
               </Typography>
 
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }} disabled={!isFormValid}>
