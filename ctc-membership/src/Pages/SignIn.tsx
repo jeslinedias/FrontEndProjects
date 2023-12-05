@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,20 +13,61 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CopyRightCTC from "../components/CopyRightCTC";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInWithEmailAndPassword, AuthError } from 'firebase/auth';
+import { FormControl } from "@mui/material";
 
+const firebaseConfig = {
+  apiKey: "AIzaSyB4nDQAhRmAbX9qW1-MsaZJtw8JlyTa7Qw",
+  authDomain: "chicagotamilcatholics-6f433.firebaseapp.com",
+  projectId: "chicagotamilcatholics-6f433",
+  storageBucket: "chicagotamilcatholics-6f433.appspot.com",
+  messagingSenderId: "160168855788",
+  appId: "1:160168855788:web:75136e333a89160fd47dc9",
+  measurementId: "G-F0BZLVYY89"
+};
+
+const app = initializeApp(firebaseConfig);
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+
+  const [error, setError] = React.useState<string | null>(null);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isFormValid, setIsFormValid] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    setError(null); // Clear previous error messages
+
+    const formData = new FormData(event.currentTarget);
+    const email = formData.get('email')?.toString().trim() || '';
+    const password = formData.get('password')?.toString() || '';
+
+    try {
+      const auth = getAuth(app);
+      await signInWithEmailAndPassword(auth, email, password);
+      setIsFormValid(true);
+      console.log('Signed in:', auth);
+      navigate('/landingpage')
+    } catch (error) {
+      setIsFormValid(false);
+      console.error('Sign-in error:', error);
+      handleSignInError(error as AuthError);
+    }
   };
+
+  const handleSignInError = (_error: AuthError) => {
+    setError('Incorrect email or password. Please try again.');
+  };
+  
+  useEffect(() => {
+    setIsFormValid(email.trim() !== '' && password !== '');
+  }, [email, password]);
 
 
   return (
@@ -80,6 +122,8 @@ export default function SignInSide() {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <TextField
                 margin="normal"
@@ -90,21 +134,29 @@ export default function SignInSide() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
+              {error && (
+                <FormControl margin="normal" fullWidth>
+                  <Typography variant="body2" color="error" align="center">
+                    {error}
+                  </Typography>
+                </FormControl>
+              )}
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
-              <Link to={'/landingpage'}>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                >
-                  Sign In
-                </Button>
-              </Link>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                disabled={!isFormValid}
+              >
+                Sign In
+              </Button>
               <Grid container>
                 <Grid item xs>
                   <Link to={`signup`}>{"Don't have an account? Sign Up"}</Link>
