@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AppBar, Button, Grid, Toolbar, Typography, Box, CssBaseline, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import CallIcon from '@mui/icons-material/Call';
@@ -6,6 +7,21 @@ import EmailIcon from '@mui/icons-material/Email';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import YouTubeIcon from '@mui/icons-material/YouTube';
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB4nDQAhRmAbX9qW1-MsaZJtw8JlyTa7Qw",
+  authDomain: "chicagotamilcatholics-6f433.firebaseapp.com",
+  projectId: "chicagotamilcatholics-6f433",
+  storageBucket: "chicagotamilcatholics-6f433.appspot.com",
+  messagingSenderId: "160168855788",
+  appId: "1:160168855788:web:75136e333a89160fd47dc9",
+  measurementId: "G-F0BZLVYY89"
+};
+
+const app = initializeApp(firebaseConfig);
 
 interface Props {
   /**
@@ -26,6 +42,18 @@ export default function Header(props: Props) {
     setMobileOpen((prevState) => !prevState);
   };
 
+  const [user, setUser] = useState<any>(null);
+  const [email] = useState('');
+  const [password] = useState('');
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Box sx={{m:2, my:3}}>
@@ -45,6 +73,27 @@ export default function Header(props: Props) {
   );
 
   const container = window !== undefined ? () => window().document.body : undefined;
+  const auth = getAuth(app);
+  
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);
+    } catch (error : any) {
+      console.error('Error logging out:', error.message);
+    }
+  };
+
+  const handleSignIn = async () => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      setUser(userCredential.user);
+
+    } catch (error : any) {
+      console.error('Error signing in:', error.message);
+    }
+  };
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -81,10 +130,24 @@ export default function Header(props: Props) {
             </Grid>
             <Grid item sm={3.2} md={3.2} lg={3} xl={3}>
                 <Grid container spacing={2}>
-                <Grid item sm={1} md={1}></Grid>
                 <Grid item sm={3} md={3}><Button variant='text' color='inherit' href='https://www.facebook.com/chicagotamilcatholics'><FacebookIcon sx={{display:'inline-block', my:2}} /></Button></Grid>
                 <Grid item sm={3} md={3}><Button variant='text' color='inherit' href='https://www.youtube.com/@chicagotamilcatholics'><YouTubeIcon sx={{display:'inline-block', my:2}} /></Button></Grid>
                 <Grid item sm={3} md={3}><Button variant='text' color='inherit' href='https://chat.whatsapp.com/HLGO12Uhc4CLYO98UQWc7w'><WhatsAppIcon sx={{display:'inline-block', my:2}} /></Button></Grid>
+                <Grid item sm={3} md={3}>
+                  {user ? (
+                    <>
+                      <Button variant="contained" color="success" onClick={handleLogout} sx={{my:2}}>
+                        Logout
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button variant="contained" color="success" onClick={handleSignIn} sx={{my:2}} href='/'>
+                        Sign In
+                      </Button>
+                    </>
+                  )}
+                </Grid>
             </Grid>
           </Grid>
         </Grid>
