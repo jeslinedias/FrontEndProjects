@@ -10,7 +10,7 @@ import {
   CssBaseline,
   TextField,
   Grid,
-  FormControlLabel,
+  //FormControlLabel,
   FormControl,
   Typography,
   Container,
@@ -67,7 +67,7 @@ export default function SignUp() {
       const user = userCredential.user;
       console.log('User signed up:', user);
       setIsFormValid(true);
-      navigate('/')
+      navigate('/landingpage')
     } catch (error: any) {
       setIsFormValid(false);
       console.error('Error signing up:', error.code, error.message);
@@ -172,13 +172,9 @@ export default function SignUp() {
               )}
 
               <Typography variant="h6" justifyContent="center">
-                <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" required />}
-                  label="I Accept the terms and conditions"
-                />
-                <Link to="#"><Typography variant='body1'>Terms and Conditions</Typography></Link>
+                <Checkbox value="remember" color='primary' required sx={{display:'inline-block'}} size='medium'/>
+                <Typography variant='body1' sx={{display:'inline-block'}}>I accept the <Link to='#'>Terms and Conditions</Link></Typography>
               </Typography>
-
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }} disabled={!isFormValid}>
                   Sign Up
                 </Button>

@@ -50,9 +50,10 @@ export default function SignInSide() {
 
     try {
       const auth = getAuth(app);
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
       setIsFormValid(true);
-      console.log('Signed in:', auth);
+      console.log('Signed in:', user);
       navigate('/landingpage')
     } catch (error) {
       setIsFormValid(false);
