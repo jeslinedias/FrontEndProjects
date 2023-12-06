@@ -75,9 +75,14 @@ export default function SignUp() {
     }
   }    
 
-  const handleSignInError = (_error: AuthError) => {
-    setError('The Email is already in use');
+  const handleSignInError = (error: AuthError) => {
+    if (error.code === 'auth/email-already-in-use') {
+      setError('Email is already in use');
+    } else {
+      setError('Incorrect Email or Password. Please try again.');
+    }       
   };
+  
 
   useEffect(() => {
     setIsFormValid(email.trim() !== '' && password !== '');
