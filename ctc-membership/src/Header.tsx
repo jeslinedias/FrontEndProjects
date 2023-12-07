@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
-import { AppBar, Button, Grid, Toolbar, Typography, Box, CssBaseline, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import { AppBar, Button, Grid, Toolbar, Typography, Box, CssBaseline, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemText, createTheme, ThemeProvider} from '@mui/material';
 import CallIcon from '@mui/icons-material/Call';
 import EmailIcon from '@mui/icons-material/Email';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -23,12 +23,35 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
+
 interface Props {
-  window?: () => Window;
+  window?: () => Window | undefined;
 }
 
 const drawerWidth = 260;
 const navItems = ['Home', 'About Us', 'Mass', 'Events', 'Blog', 'Contact Us'];
+
+declare module '@mui/material/styles' {
+  interface BreakpointOverrides {
+     mo: true;
+  }
+}
+
+const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      mo: 500,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
+});
+
+
+
 
 export default function Header(props: Props) {
   const { window } = props;
@@ -68,7 +91,7 @@ export default function Header(props: Props) {
     </Box>
   );
 
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const container = window?.()?.document.body;
   const auth = getAuth(app);
   
 
@@ -91,6 +114,7 @@ export default function Header(props: Props) {
     }
   };
 
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -101,35 +125,55 @@ export default function Header(props: Props) {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ mr: 1.5, display: { sm: 'none'} }}
           >
             <MenuIcon />
           </IconButton>
-          <Grid container spacing={2} sx={{ display: { xs: 'block', sm: 'none' } }}>
-            <Grid item xs={10}>
-                <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
+          <ThemeProvider theme={theme}>
+          <Grid container spacing={2} sx={{ display: { xs: 'flex', sm: 'none' } }}>
+            <Grid item mo={1.5} sx={{display: {xs:'none', mo:'flex', sm:'none'} }}></Grid>
+            <Grid item xs={9.5} mo={8.5}>
+                <Box sx={{ display: { xs: 'flex', sm: 'none' } }}>
                     <img src='src/images/ctclong_logo.webp' alt="Your Image Alt Text" style={{height:'50px'}} />
                 </Box>
             </Grid>
+            <Grid item xs={2} mo={2}>
+                <Box sx={{ display: { xs: 'flex', sm: 'none' } }}>
+                  {user ? (
+                      <>
+                        <Button variant="contained" color="success" onClick={handleLogout} size='small' sx={{my:1}}>
+                          Logout
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <Button variant="contained" color="success" onClick={handleSignIn} href='/' size='small' sx={{my:1}}>
+                          SignIn
+                        </Button>
+                      </>
+                    )}
+                </Box>
+            </Grid>
           </Grid>
+          </ThemeProvider>
           <Grid container spacing={2} sx={{ display: { xs: 'none', sm: 'flex' } }}>
-            <Grid item sm={1} md={1} lg={1.2} xl={1.2}>
+            <Grid item sm={0.9} md={0.7} lg={0.7} xl={1.2}>
                 <Button variant='text' color='inherit' href='tel:312-970-0053' sx={{my:2.5, display:'inline-block' }}><CallIcon /></Button>  
                 <Button variant='text' color='inherit' href='tel:312-970-0053' sx={{ display: { sm: 'none', md:'none', lg: 'none', xl: 'inline-block' } }}><Typography>312-970-0053</Typography></Button>
             </Grid>
-            <Grid item sm={2} md={2} lg={2.1} xl={2.1}>
+            <Grid item sm={1.2} md={1.7} lg={2} xl={2.1}>
                 <Button variant='text' color='inherit' href='mailto:hello@chicagotamilcatholics.org' sx={{my:2.5, display:'inline-block' }}><EmailIcon /></Button>
                 <Button variant='text' color='inherit' href='mailto:hello@chicagotamilcatholics.org' sx={{textTransform: 'none', display: { sm: 'none', md:'none', lg: 'none', xl:'inline-block'}}}><Typography>hello@chicagotamilcatholics.org</Typography></Button>
             </Grid>
-            <Grid item sm={5.8} md={5.5} lg={5} xl={5}>
+            <Grid item sm={6.1} md={5.6} lg={5.1} xl={5}>
                 <img src='src/images/ctclong_logo.webp' alt="Your Image Alt Text" style={{height:'80px'}} />
             </Grid>
-            <Grid item sm={3.2} md={3.2} lg={3} xl={3}>
+            <Grid item sm={3.8} md={3.5} lg={3.5} xl={3}>
                 <Grid container spacing={2}>
-                <Grid item sm={3} md={3}><Button variant='text' color='inherit' href='https://www.facebook.com/chicagotamilcatholics'><FacebookIcon sx={{display:'inline-block', my:2}} /></Button></Grid>
-                <Grid item sm={3} md={3}><Button variant='text' color='inherit' href='https://www.youtube.com/@chicagotamilcatholics'><YouTubeIcon sx={{display:'inline-block', my:2}} /></Button></Grid>
-                <Grid item sm={3} md={3}><Button variant='text' color='inherit' href='https://chat.whatsapp.com/HLGO12Uhc4CLYO98UQWc7w'><WhatsAppIcon sx={{display:'inline-block', my:2}} /></Button></Grid>
-                <Grid item sm={3} md={3}>
+                <Grid item sm={2.4} md={3}><Button variant='text' color='inherit' href='https://www.facebook.com/chicagotamilcatholics'><FacebookIcon sx={{display:'inline-block', my:2}} /></Button></Grid>
+                <Grid item sm={2.4} md={3}><Button variant='text' color='inherit' href='https://www.youtube.com/@chicagotamilcatholics'><YouTubeIcon sx={{display:'inline-block', my:2}} /></Button></Grid>
+                <Grid item sm={2.9} md={3}><Button variant='text' color='inherit' href='https://chat.whatsapp.com/HLGO12Uhc4CLYO98UQWc7w'><WhatsAppIcon sx={{display:'inline-block', my:2}} /></Button></Grid>
+                <Grid item sm={2.8} md={3}>
                   {user ? (
                     <>
                       <Button variant="contained" color="success" onClick={handleLogout} sx={{my:2}}>
@@ -139,7 +183,7 @@ export default function Header(props: Props) {
                   ) : (
                     <>
                       <Button variant="contained" color="success" onClick={handleSignIn} sx={{my:2}} href='/'>
-                        Sign In
+                        SignIn
                       </Button>
                     </>
                   )}
