@@ -24,10 +24,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
   window?: () => Window;
 }
 
