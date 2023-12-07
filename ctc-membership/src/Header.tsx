@@ -99,6 +99,7 @@ export default function Header(props: Props) {
     try {
       await signOut(auth);
       setUser(null);
+      console.log('Signed out:', user);
     } catch (error : any) {
       console.error('Error logging out:', error.message);
     }
