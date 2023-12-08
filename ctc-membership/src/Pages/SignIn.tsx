@@ -149,6 +149,7 @@ export default function SignInSide() {
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
+              <Link to="/forgot-password"><Typography variant="body2">Forgot Password?</Typography></Link>
               <Button
                 type="submit"
                 fullWidth
