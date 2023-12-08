@@ -89,7 +89,7 @@ export default function SignUp() {
   }, [email, password]);
 
 
-  const paperStyle = { padding: "2vh" };
+  const paperStyle = { padding: "1vh" };
 
   // function emailValidation(
   //   event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -103,7 +103,7 @@ export default function SignUp() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="sm">
+      <Container component="main" maxWidth="md" sx={{width: {md:'900px'}}}>
         <CssBaseline />
         <Paper elevation={2} style={paperStyle}>
           <Box
@@ -112,6 +112,7 @@ export default function SignUp() {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              height: "70vh"
             }}
           >
             <Avatar
@@ -125,7 +126,7 @@ export default function SignUp() {
               component="form"
               onSubmit={handleSubmit}
               //noValidate
-              sx={{ mt: 1, p: 2 }}
+              sx={{ mt: 1, p: 2, width: {md:'800px'} }}
             >
               <Stack spacing={1} direction={"row"} margin={1}>
                 <TextField
