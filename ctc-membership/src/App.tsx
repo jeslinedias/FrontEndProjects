@@ -14,6 +14,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { Toolbar } from "@mui/material";
 import LandingPage from "./LandingPage";
+import ForgotPassword from "./ForgotPassword";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +29,7 @@ const router = createBrowserRouter(
       />
       <Route path="/registrationform" element={<RegistrationForm />} errorElement={<ErrorPage />} />
       <Route path="/landingpage" element={<LandingPage />} errorElement={<ErrorPage/>} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
     </Route>
   )
 );
