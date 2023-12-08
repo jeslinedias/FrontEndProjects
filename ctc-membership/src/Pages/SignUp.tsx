@@ -111,8 +111,7 @@ export default function SignUp() {
               marginTop: 8,
               display: "flex",
               flexDirection: "column",
-              alignItems: "center",
-              height: "70vh"
+              alignItems: "center"
             }}
           >
             <Avatar
